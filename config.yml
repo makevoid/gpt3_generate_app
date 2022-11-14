@@ -1,0 +1,21 @@
+app_prototypes:
+  app_prompt: roda application that implements the twitter api
+  app_prompt_app:
+    "name: twitter
+    controller:
+      - GET /feed - list all tweets in creation order - if you are logged in list per user
+      - GET /user - display user infos such as image url, nickname and bio
+      - GET /user/feed - list all tweets of the user
+      - POST /tweet - save tweet text to redis and user id
+     model:
+       - Tweet.all - get all the tweets
+       - Tweet.feed username: - get all the tweets (using Tweet.all) from the users you are following
+       - Tweet.user username: - get all the tweets from a particular user
+       - Tweet.get tweet_id: - get a single tweet using Sequel .where
+       - Tweet.tweet text:, user: - tweets a particular text using the Twitter api, perform lenght check or otherwise raise TweetTooLongError, returns operation success
+     environment:
+       - require and setup the twitter gem
+       - test 
+
+    "
+  weather_app:
