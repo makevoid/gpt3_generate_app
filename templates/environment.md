@@ -1,21 +1,22 @@
+# DESCRIPTION
 # minimalistic env file
-# ---
+# IMPLEMENTATION
 require "bundler"
 Bundler.require :default
 
 PATH = File.expand_path "../", __FILE__
-# ---
+# DESCRIPTION
 # env file that initializes redis
-# ---
+# IMPLEMENTATION
 require "bundler"
 Bundler.require :default
 
 PATH = File.expand_path "../", __FILE__
 
 R = Redis.new
-# --
+# DESCRIPTION
 # env file that autoloads lib
-# ---
+# IMPLEMENTATION
 require "bundler"
 Bundler.require :default
 
@@ -63,9 +64,9 @@ end
 
 extend AutoloadDirs
 autoload_dir directory: "lib"
-# --
+# DESCRIPTION
 # env file that loads config including `:docker`
-# ---
+# IMPLEMENTATION
 require "bundler"
 Bundler.require :default
 
@@ -80,9 +81,9 @@ CONFIG = load_config
 DOCKER = CONFIG.fetch :docker
 docker = DOCKER
 raise "ConfigNotSetError - Docker" if !docker || docker.empty?
-# --
+# DESCRIPTION
 # env file that has a timer method
-# ---
+# IMPLEMENTATION
 require "bundler"
 Bundler.require :default
 
@@ -97,9 +98,9 @@ end
 include TimeElapsed
 
 time_elapsed
-# --
+# DESCRIPTION
 # env file that initializes redis and has configs - redis_host, infura_project_id, nft_contract_ids
-# ---
+# IMPLEMENTATION
 require "bundler"
 Bundler.require :default
 
@@ -125,5 +126,5 @@ raise "ConfigNotSetError - Infura Project ID" if !INFURA_PROJECT_ID || INFURA_PR
 
 NFT_CONTRACT_IDS = CONFIG.fetch :nft_contract_ids
 raise "ConfigNotSetError - NFT Contract IDs" if !NFT_CONTRACT_IDS || NFT_CONTRACT_IDS.empty?
-# --
+# DESCRIPTION
 # env file that <PROMPT>

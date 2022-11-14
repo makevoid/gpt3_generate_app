@@ -1,5 +1,6 @@
+# DESCRIPTION
 # write a roda boilerplate app
-# ---
+# IMPLEMENTATION
 class App < Roda
   plugin :render, engine: "haml"
   plugin :public
@@ -22,9 +23,9 @@ class App < Roda
     r.public
   end
 end
-# ---
+# DESCRIPTION
 # write a roda app that fetches the weather in London
-# ---
+# IMPLEMENTATION
 class Foo
   def bar(baz:)
     resp = Excon.get baz, { query: { weather_location: "London, UK" } }
@@ -58,9 +59,9 @@ class App < Roda
     r.public
   end
 end
-# ---
+# DESCRIPTION
 # write a roda app that fetches the temperature in Dubai
-# ---
+# IMPLEMENTATION
 require "json"
 require "bundler/setup"
 Bundler.require :default
@@ -100,9 +101,9 @@ class App < Roda
     r.public
   end
 end
-# ---
+# DESCRIPTION
 # write a roda app that fetches the bitcoin price in USD
-# ---
+# IMPLEMENTATION
 source "https://rubygems.org"
 
 gem "roda"
@@ -147,13 +148,15 @@ class App < Roda
     r.public
   end
 end
-
+# DESCRIPTION
 # write a model that stores hashes as json on redis
-# ---
+# IMPLEMENTATION
+# Gemfile
 source "https://rubygems.org"
 
 gem "redis"
-# ---
+# app.rb
+
 require "json"
 require "bundler/setup"
 Bundler.require :default
@@ -185,9 +188,9 @@ end
 foo = Foo.new
 foo.bar = "{ \"qux\": \"quux\" }"
 foo.bar #=> "{ \"qux\": \"quux\" }"
-# ---
+# DESCRIPTION
 # write an app that fetches the weather and stores it in redis as json
-# ---
+# DESCRIPTION
 source "https://rubygems.org"
 
 gem "roda"
@@ -262,9 +265,9 @@ class App < Roda
     r.public
   end
 end
-# ---
+# DESCRIPTION
 # write an app that gets the price of aapl and renders it in a view
-# ---
+# DESCRIPTION
 class Foo
   def bar
     url = STOCK_PRICE_API_URL
@@ -300,9 +303,9 @@ class App < Roda
     r.public
   end
 end
-# ---
+# DESCRIPTION
 # write an app that gets the weather in Cairo, stores it in Redis as JSON and renders it in a view
-# ---
+# IMPLEMENTATION
 R = Redis.new
 
 class Foo
@@ -367,5 +370,5 @@ class App < Roda
     r.public
   end
 end
-# ---
+# DESCRIPTION
 # write a roda app that <PROMPT>

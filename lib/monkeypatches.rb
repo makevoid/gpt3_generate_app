@@ -1,10 +1,10 @@
 module Monkeypatches
 
-  class Hash
+  class ::Hash
     alias_method :f, :fetch
   end
 
-  class Array
+  class ::Array
     alias_method :f, :fetch
   end
 

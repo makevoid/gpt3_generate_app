@@ -1,7 +1,7 @@
-# ---
+# DESCRIPTION
 # a class WeatherForecast with a method `forecast` that takes a location argument
 # the `forecast` method fetches the weather from the a weather api using excon get
-# ---
+# IMPLEMENTATION
 
 # ## WeatherForecast class:
 #
@@ -55,10 +55,10 @@ end
 
 # gems:
 # - gem "excon"
-# ---
+# DESCRIPTION
 # a class BlockchainAPIPrice with a method `btc`
 # the `btc` method gets the current bitcoin price in USD
-# ---
+# IMPLEMENTATION
 
 # ## BlockchainAPIPrice class:
 #
@@ -105,12 +105,12 @@ end
 
 # gems:
 # - gem "excon"
-# ---
+# DESCRIPTION
 # a class BlockchainAPIBlock with a method `last_block_hash`
 # the `last_block_hash` method gets the latest known blockchain block hash
 # the class has also a method `last_block_hash`
 # the `last_block` method fetches the last block from the blockchain returning the full block info
-# ---
+# IMPLEMENTATION
 
 # ## BlockchainAPIBlock class:
 #
@@ -177,5 +177,5 @@ end
 
 # gems:
 # - gem "excon"
-# ---
+# DESCRIPTION
 # a class <PROMPT>

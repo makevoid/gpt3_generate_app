@@ -1,15 +1,15 @@
 class GPT3Prompt
 
-  ENGINE = "davinci" # no fine tune yet
+  ENGINE = "code-davinci-001" # no fine tune yet
 
-  MAX_TOKENS = 160
+  MAX_TOKENS = 250
 
   STOP_TOKENS = GPT3_STOP_TOKENS
 
   PARAMETERS_DEFAULT = {
     max_tokens:         MAX_TOKENS,
     stop:               STOP_TOKENS,
-    temperature:        0.35,
+    temperature:        0.3,
     top_p:              0.99,
     frequency_penalty:  0.01,
     presence_penalty:   0.01,

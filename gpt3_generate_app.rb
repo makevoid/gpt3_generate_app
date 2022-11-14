@@ -1,13 +1,10 @@
-require_relative 'env'
+require_relative "env"
 
 # include Generators
 
-def main
-  generate_all
-end
-
 def generate_all
   load_config
+  puts "generating code blocks..."
   generate_app
   generate_env
   puts "performing test..."
@@ -15,12 +12,33 @@ def generate_all
   generate_models
 end
 
+
+def concat_prompt
+  prompt = prompt.strip
+  "#{prompt}\n# IMPLEMENTATION\n"
+end
+
+# this generates 1 prompt - at this stage 1 code block = 1 file
+def generate_code_block(area:)
+  input = concat_prompt STATE.f(:config).f(area)
+  out = GPT3Prompt.generate input: input
+  save_output filename: STATE.f(:config).f(:filename), output: out
+end
+
+def save_output(filename:, output:)
+  puts `mkdir -p "./generated_apps/01"`
+  File.open("./generated_apps/01/#{filename}") do |file|
+    file.write output
+  end
+  puts "file written - #{filename}"
+end
+
 def generate_app
-  GPT3Prompt.generate input: CONFIG.f("app")
+  generate_code_block area: :app
 end
 
 def generate_env
-  GPT3Prompt.new
+  generate_code_block area: :environment
 end
 
 def generate_models
@@ -60,13 +78,10 @@ def test_app_and_env
   test_app_run_app
 end
 
-# TODO: extract
+# ---
 
-CONFIG = {}
-
-module Config
-  def load_config
-    conf = YAML.load_file "./config.yml"
-    CONFIG = conf
-  end
+def main
+  generate_all
 end
+
+main
