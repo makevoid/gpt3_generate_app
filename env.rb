@@ -1,6 +1,6 @@
 require "yaml"
 require "bundler"
-Bundler.require :default
+Bundler.require :default, :development
 
 STATE = {}
 
@@ -13,28 +13,15 @@ GPT3_STOP_TOKENS = [
   "# IMPLEMENTATION\n",
 ]
 
-GENERATORS = {
-  app: {
-    filepath: "app.rb",
-  },
-  models: {
-    filepath: "models.rb"
-  },
-  environment: {
-    filepath: "env.rb"
-  },
-  css: {
-    filepath: "public/css/style.css",
-  },
-  layout: {
-    filepath: "views/layout.haml",
-  },
-  index_page: {
-    filepath: "views/index.haml",
-  },
-  secondary_page: {
-    filepath: "views/page2.haml",
-  },
+TEMPLATE_PATHS = {
+  prompt_app: "app.rb",
+  prompt_models: "models.rb",
+  prompt_environment: "env.rb",
+  prompt_css: "public/css/style.css",
+  prompt_layout:         "views/layout.haml",
+  prompt_index_page:     "views/index.haml",
+  prompt_secondary_page: "views/page2.haml",
+
   # controller_action_index: {
   #   filepath: "app.rb",
   # },
@@ -43,7 +30,11 @@ GENERATORS = {
   # },
 }
 
+# load libraries
 require_relative "lib/gpt_prompt"
 require_relative "lib/generate_app"
 require_relative "lib/monkeypatches"
 include Monkeypatches
+
+OPENAI_API_KEY = File.read(File.expand_path "~/.openai_api_key").strip
+GPT3 = OpenAI::Client.new access_token: OPENAI_API_KEY

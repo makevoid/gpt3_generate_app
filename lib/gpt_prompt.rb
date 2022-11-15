@@ -1,8 +1,8 @@
 class GPT3Prompt
 
-  ENGINE = "code-davinci-001" # no fine tune yet
+  MODEL = "code-davinci-001" # no fine tune yet
 
-  MAX_TOKENS = 250
+  MAX_TOKENS = 600 # app
 
   STOP_TOKENS = GPT3_STOP_TOKENS
 
@@ -27,7 +27,8 @@ class GPT3Prompt
 
   def generate
     resp = GPT3.completions(
-      engine: ENGINE,
+      # model: MODEL,
+      engine: MODEL,
       parameters: compleitions_params,
     )
     resp = parse_response response: resp
