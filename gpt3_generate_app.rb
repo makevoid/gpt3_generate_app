@@ -9,8 +9,8 @@ def generate_all
     output = generate_app
     route_prompts = output.f :route_prompts
     # route_prompt = route_prompts.first
-    route_prompts.each do |route_prompt|
-      generate_route route_prompt: route_prompt
+    route_prompts.each_with_index do |route_prompt, idx|
+      generate_route route_prompt: route_prompt, idx: idx
       # exit
     end
   end
@@ -51,8 +51,7 @@ def generate_code_block(area:)
   }
 end
 
-def generate_code_block_route(route_prompt:)
-  route_idx = 0
+def generate_code_block_route(route_prompt:, idx:)
   # prompt  = app.f :prompt_environment
   few_shots_text = load_few_shots_text name: :prompt_route
   input   = concat_prompt prompt: route_prompt, few_shots_text: few_shots_text
@@ -102,8 +101,8 @@ def generate_app
   generate_code_block area: :app
 end
 
-def generate_route(route_prompt:)
-  generate_code_block_route route_prompt: route_prompt
+def generate_route(route_prompt:, idx:)
+  generate_code_block_route route_prompt: route_prompt, idx: idx
 end
 
 def generate_env
