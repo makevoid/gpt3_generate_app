@@ -5,11 +5,19 @@ require_relative "env"
 def generate_all
   load_config
   puts "generating code blocks..."
-  generate_app unless ENV["GENERATE"]=="0"
-  # generate_env
-  puts "performing test..."
-  test_app_and_env
-  generate_models
+  unless ENV["GENERATE"] == "0"
+    output = generate_app
+    route_prompts = output.f :route_prompts
+    # route_prompt = route_prompts.first
+    route_prompts.each do |route_prompt|
+      generate_route route_prompt: route_prompt
+      # exit
+    end
+  end
+  # # generate_env
+  # puts "performing test..."
+  # test_app_and_env
+  # generate_models
 end
 
 def concat_prompt(prompt:, few_shots_text:)
@@ -19,7 +27,7 @@ end
 
 # this generates 1 prompt - at this stage 1 code block = 1 file
 def generate_code_block(area:)
-  prompt_template_name = :prompt_app
+  prompt_template_name = :"prompt_#{area}"
   app_name  = :twitter_clone
   config    = STATE.f :config
   app       = config.f app_name
@@ -27,10 +35,31 @@ def generate_code_block(area:)
   # prompt  = app.f :prompt_environment
   few_shots_text = load_few_shots_text name: prompt_template_name
   input   = concat_prompt prompt: prompt, few_shots_text: few_shots_text
-  print_debug prompt: input
+  # print_debug prompt: input
   output = GPT3Prompt.generate input: input
-  print_output output: output
+  # print_output output: output
   template_filepath = TEMPLATE_PATHS.f prompt_template_name
+  save_output filename: template_filepath, output: output
+
+  route_prompts = []
+  output.split("\n").each do |out|
+    out.sub! /^-\s+roda\s+route\s+/, ''
+    route_prompts << out
+  end
+  {
+    route_prompts: route_prompts
+  }
+end
+
+def generate_code_block_route(route_prompt:)
+  route_idx = 0
+  # prompt  = app.f :prompt_environment
+  few_shots_text = load_few_shots_text name: :prompt_route
+  input   = concat_prompt prompt: route_prompt, few_shots_text: few_shots_text
+  # print_debug prompt: input
+  output = GPT3Prompt.generate input: input
+  # print_output output: output
+  template_filepath = TEMPLATE_PATHS.f :prompt_route
   save_output filename: template_filepath, output: output
 end
 
@@ -53,7 +82,6 @@ def load_few_shots_text(name:)
   text
 end
 
-
 def print_debug(prompt:)
   puts "-"*100
   puts "PROMPT"
@@ -74,11 +102,17 @@ def generate_app
   generate_code_block area: :app
 end
 
+def generate_route(route_prompt:)
+  generate_code_block_route route_prompt: route_prompt
+end
+
 def generate_env
   generate_code_block area: :environment
 end
 
 def generate_models
+  # TODO: ...
+  puts "exiting..."
   exit
 end
 

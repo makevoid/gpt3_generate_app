@@ -5,13 +5,13 @@ r.root {
   "hello world"
 }
 # DESCRIPTION
-# write a ruby roda - get /hello - route that renders "OK World!"
+# write a ruby roda route - get /hello - that renders "OK World!"
 # IMPLEMENTATION
 r.get "hello" {
   "OK World!"
 }
 # DESCRIPTION
-# write a ruby roda - post /messages - route that saves a message
+# write a ruby roda route - post /messages - that saves a message
 # IMPLEMENTATION
 r.post "messages" {
   message_text = params["message_text"]
@@ -20,15 +20,16 @@ r.post "messages" {
   { status: status }
 }
 # DESCRIPTION
-# write a ruby roda - get /posts/:post_id - route that returns a single post
+# write a ruby roda route - get /posts/:post_id - that returns a single post
 # IMPLEMENTATION
 r.get "posts", Integer {
   "OK World!"
 }
 # DESCRIPTION
-# write a ruby roda - get /posts/:post_id - route that returns a collection of posts with filters
+# write a ruby roda route - get /posts/:post_id - that returns a collection of posts with filters
 # IMPLEMENTATION
 r.get "posts" {
-  post = Post.all
-  
+  posts = Post.all
+  posts
 }
+# DESCRIPTION

@@ -1,50 +1,56 @@
 :twitter_clone:
-  :prompt_app_name: twitter clone app
-  :prompt_app_idea: a roda twitter clone application that lets you post short messages, repost them (retweet)
-  :prompt_general:
-    "name: twitter"
-  :prompt_environment:
-    "environment:
-    - require and setup the twitter gem
-    - setup sqlite
-    - test sqlite connection with select 1
-    - create table tweet and users if the tabled are not yet created"
-  :prompt_app:
-    "implements a todo list app listing todos from a database using Sequel and sqlite"
-  :prompt_app2:
-    "implements a openweather weather app calling open-meteo.com/v1/forecast"
-  :prompt_app3:
-    "implements a twitter clone listing tweets from a database using Sequel and sqlite"
-  :prompt_app3:
-    "fetches twitter tweets via twitter api and returns them as json response"
-  :prompt_app3:
-    "
-    implements an api similar to the one twitter exposes, with a GET /feed endpoint that lists all tweets in creation order - if you are logged in list per user. A GET /user endpoint - display user infos such as image url, nickname and bio. A POST /tweet endpoint that save tweet text to redis and user id.
-    "
-  :prompt_app_complex:
-    :controller_routes:
-      "
-      - GET /feed - list all tweets in creation order - if you are logged in list per user
-      - GET /user - display user infos such as image url, nickname and bio
-      - GET /user/feed - list all tweets of the user
-      - GET /tweets/id - get the single tweet by id and return the tweet info and user information in the response
-      - POST /tweet - save tweet text to redis and user id
-      - POST /tweets/id - save tweet text to redis and user id
-      "
-    :model:
-      "
-       - Tweet.all - get all the tweets
-       - Tweet.feed username: - get all the tweets (using Tweet.all) from the users you are following
-       - Tweet.user username: - get all the tweets from a particular user
-       - Tweet.get tweet_id: - get a single tweet using Sequel .where
-       - Tweet.tweet text:, user: - tweets a particular text using the Twitter api, perform lenght check or otherwise raise TweetTooLongError, returns operation success
-      "
-  :prompt_database:
-    "
-    database:
-     - Tweet - fields: text, created_at, retweets_number
-     - User - fields: username, hashed_password, bio
-    "
+  :prompt_app: "
+  implements a todo list app listing todos from a database using Sequel and sqlite"
+  :prompt_route: null # this prompt is interactive, this config can be used to geneate a single route
+
+  # TODO: comment all notes
+
+  # NOTES:
+  # ---
+  # :prompt_app_name: twitter clone app
+  # :prompt_app_idea: a roda twitter clone application that lets you post short messages, repost them (retweet)
+  # :prompt_general:
+  #   "name: twitter"
+  # :prompt_environment:
+  #   "environment:
+  #   - require and setup the twitter gem
+  #   - setup sqlite
+  #   - test sqlite connection with select 1
+  #   - create table tweet and users if the tabled are not yet created"
+  # :prompt_app2:
+  #   "implements a openweather weather app calling open-meteo.com/v1/forecast"
+  # :prompt_app3:
+  #   "implements a twitter clone listing tweets from a database using Sequel and sqlite"
+  # :prompt_app3:
+  #   "fetches twitter tweets via twitter api and returns them as json response"
+  # :prompt_app3:
+  #   "
+  #   implements an api similar to the one twitter exposes, with a GET /feed endpoint that lists all tweets in creation order - if you are logged in list per user. A GET /user endpoint - display user infos such as image url, nickname and bio. A POST /tweet endpoint that save tweet text to redis and user id.
+  #   "
+  # :prompt_app_complex:
+  #   :controller_routes:
+  #     "
+  #     - GET /feed - list all tweets in creation order - if you are logged in list per user
+  #     - GET /user - display user infos such as image url, nickname and bio
+  #     - GET /user/feed - list all tweets of the user
+  #     - GET /tweets/id - get the single tweet by id and return the tweet info and user information in the response
+  #     - POST /tweet - save tweet text to redis and user id
+  #     - POST /tweets/id - save tweet text to redis and user id
+  #     "
+  #   :model:
+  #     "
+  #      - Tweet.all - get all the tweets
+  #      - Tweet.feed username: - get all the tweets (using Tweet.all) from the users you are following
+  #      - Tweet.user username: - get all the tweets from a particular user
+  #      - Tweet.get tweet_id: - get a single tweet using Sequel .where
+  #      - Tweet.tweet text:, user: - tweets a particular text using the Twitter api, perform lenght check or otherwise raise TweetTooLongError, returns operation success
+  #     "
+  # :prompt_database:
+  #   "
+  #   database:
+  #    - Tweet - fields: text, created_at, retweets_number
+  #    - User - fields: username, hashed_password, bio
+  #   "
 
 # soon...
 

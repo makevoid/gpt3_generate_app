@@ -14,7 +14,8 @@ GPT3_STOP_TOKENS = [
 ]
 
 TEMPLATE_PATHS = {
-  prompt_app: "app.rb",
+  prompt_app: "app.md",
+  prompt_route: "route_1.rb",
   prompt_models: "models.rb",
   prompt_environment: "env.rb",
   prompt_css: "public/css/style.css",

@@ -1,6 +1,7 @@
 class GPT3Prompt
 
-  MODEL = "code-davinci-001" # no fine tune yet
+  # MODEL = "code-davinci-001" # no fine tune yet
+  MODEL = "code-davinci-002" # no fine tune yet
 
   MAX_TOKENS = 600 # app
 
