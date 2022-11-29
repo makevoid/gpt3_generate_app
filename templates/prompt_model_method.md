@@ -18,7 +18,8 @@ end
 
 def get(tweet_id:)
   tweets = DB[:tweets]
-  tweets.first id: tweet_id
+  data = tweets.first id: tweet_id
+  Tweet.new data
 end
 # DESCRIPTION
 # write a ruby model method using Sequel that saves a blog post
@@ -42,4 +43,11 @@ def save
     created_at: Time.now,
   }
   status
+end
+# DESCRIPTION
+# write a ruby model method using ruby that gets a single tweet
+# IMPLEMENTATION
+def get(tweet_id:)
+  data = R.hmget "tweets:#{tweet_id}"
+  Tweet.new data
 end

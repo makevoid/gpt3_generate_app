@@ -1,2 +1,5 @@
 tmp/sample*
 generated_apps
+*.sqlite
+*.sql
+*.db

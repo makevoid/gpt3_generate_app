@@ -4,4 +4,11 @@ task :run do
   sh "bundle exec ruby gpt3_generate_app.rb"
 end
 
+desc "Spec - run tests"
+task :spec do
+  sh "bundle exec rspec"
+end
+
+
+
 task default: :run

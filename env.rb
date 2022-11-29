@@ -15,7 +15,7 @@ GPT3_STOP_TOKENS = [
 
 TEMPLATE_PATHS = {
   prompt_app: "app.md",
-  prompt_route: "route_1.rb",
+  prompt_route: "route_%s.rb",
   prompt_models: "models.rb",
   prompt_environment: "env.rb",
   prompt_css: "public/css/style.css",
@@ -33,6 +33,7 @@ TEMPLATE_PATHS = {
 
 # load libraries
 require_relative "lib/gpt_prompt"
+require_relative "lib/app_testing"
 require_relative "lib/generate_app"
 require_relative "lib/monkeypatches"
 include Monkeypatches
