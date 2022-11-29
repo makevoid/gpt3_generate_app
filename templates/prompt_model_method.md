@@ -1,5 +1,5 @@
 # DESCRIPTION
-# write a ruby model method using Sequel that returns a list of tweets
+# write a ruby model method Tweet.all that returns a list of tweets using Sequel 
 # IMPLEMENTATION
 def self.all
   new.all

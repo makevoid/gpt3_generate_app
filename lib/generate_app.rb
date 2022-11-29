@@ -12,6 +12,9 @@ class GenerateApp
 
   def generate_all
     load_config
+    prepare_generated_app_dir
+    delete_generated_app
+
     unless ENV["GEN"] == "0"
       puts "generating code blocks..."
       output = generate_app
@@ -26,11 +29,12 @@ class GenerateApp
     end
 
     prepare_application
+    # generate_migration
+    # generate_models
 
     # # generate_env
     # puts "performing test..."
-    # test_app_and_env
-    # generate_models
+    test_app_and_env
   end
 
   def test_app_and_env
@@ -38,22 +42,45 @@ class GenerateApp
   end
 
   def read_app_template
-
+    path_tpl = "./test_app/app_template.rb"
+    template = File.read path_tpl
+    template
   end
 
-  def write_app_file(template:, routes:)
-    template.sub
-    File.open
-    f.write
+  def write_app_file(routes:)
+    path = "./generated_apps/01/app.rb"
+    template = read_app_template
+    contents = template.sub "<ROUTES>", routes
+    File.open(path, "w") do |file|
+      file.write contents
+    end
+  end
+
+  def prepare_generated_app_dir
+    puts `mkdir -p "./generated_apps/01"`
+  end
+
+  def delete_generated_app
+    path = "./generated_apps/01/*"
+    puts `rm -rf #{path}`
+  end
+
+  def add_spacing(route:)
+    spacing = " "*4
+    route = route.split("\n").map do |line|
+      line = "#{spacing}#{line}"
+    end
+    route = route.join "\n"
+    route
   end
 
   def prepare_application
     path = "./generated_apps/01"
     routes_files = Dir.glob "#{path}/route_*.rb"
     routes = ""
-    template
     routes_files.each do |route_file|
       route = File.read route_file
+      route = add_spacing route: route
       routes << "#{route}\n\n"
     end
     routes
@@ -103,9 +130,9 @@ class GenerateApp
     # prompt  = app.f :prompt_environment
     few_shots_text = load_few_shots_text name: :prompt_route
     input   = concat_prompt_route prompt: route_prompt, few_shots_text: few_shots_text
-    print_debug prompt: input
+    # print_debug prompt: input
     output = GPT3Prompt.generate input: input
-    # print_output output: output
+    print_output output: output
     template_filepath = TEMPLATE_PATHS.f :prompt_route
     template_filepath = template_filepath % idx
     save_output filename: template_filepath, output: output
@@ -139,7 +166,6 @@ class GenerateApp
   end
 
   def save_output(filename:, output:)
-    puts `mkdir -p "./generated_apps/01"`
     File.open("./generated_apps/01/#{filename}", "w") do |file|
       file.write output
     end
@@ -158,10 +184,13 @@ class GenerateApp
     generate_code_block area: :environment
   end
 
+  def generate_migration
+
+  end
+
   def generate_models
-    # TODO: ...
-    puts "exiting..."
-    exit
+    routes = load_routes
+    model_functions = extract_model_functions_from_routes
   end
 
 end

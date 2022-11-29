@@ -6,14 +6,14 @@ APP_TODO_SQLITE = "
 "
 
 ROUTE_TODOS_GET = "
-r.get \"todos\" {
+r.get(\"todos\") {
   todos = Todo.all
   todos.map &:to_json
 }
 "
 
 ROUTE_TODOS_POST = "
-r.post \"todos\" {
+r.post(\"todos\") {
   todo_text = params[\"todo_text\"]
   todo = Todo.new todo_text: todo_text
   status = todo.save
@@ -30,7 +30,7 @@ r.post \"todos\" {
     # input regex => mock output
     /requirements .+ application .+ todo list app .+ sequel/i => APP_TODO_SQLITE,
     /get \/todos \- lists .+ todos/i => ROUTE_TODOS_GET,
-    /post \/todos \- insert .+ todo/i => ROUTE_TODOS_POST,
+    /post \/todos \- inserts .+ todo/i => ROUTE_TODOS_POST,
     # ...
   }
 

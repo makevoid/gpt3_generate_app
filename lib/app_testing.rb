@@ -5,16 +5,18 @@ module AppTesting
   end
 
   def test_app_run_app_test
-    url = "/weather"
+    # url = "/weather"
+    url = "/"
     out = run_cmd "curl http://localhost:3000#{url}"
     puts "OUTPUT: '#{out}' == OK"
+    raise "AppTestFailedError - output doesn't match, app is probably not running" unless out == '{"status":"ok"}'
   end
 
   def test_app_run_app_run_thread
     Thread.new do
-      run_cmd "cd ./test_app && BUNDLE_GEMFILE=./Gemfile bundle exec rackup -p 3000"
+      run_cmd "cd ./test_app && pkill -f puma; BUNDLE_GEMFILE=./Gemfile bundle exec rackup -p 3000"
     end
-    sleep 3
+    sleep 0.5
   end
 
   private
