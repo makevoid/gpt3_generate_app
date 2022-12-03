@@ -1,8 +1,12 @@
 class GPT3MockResponse
 
 APP_TODO_SQLITE = "
-- get /todos - lists all todos
-- post /todos - inserts a new todo
+- model Todo using Sequel - id, text, complete, created_at - complete is false by default
+- model method Todo.all - gets all todos using Sequel, sorted by created_at desc
+- model method todo.new - initializes a todo with `text`
+- model method todo.save - creates one tweet using Sequel saving the text and the current time as created_at
+- roda route get /todos - lists all todos
+- roda route post /todos - inserts a new todo
 "
 
 ROUTE_TODOS_GET = "
@@ -14,8 +18,8 @@ r.get(\"todos\") {
 
 ROUTE_TODOS_POST = "
 r.post(\"todos\") {
-  todo_text = params[\"todo_text\"]
-  todo = Todo.new todo_text: todo_text
+  text = params[\"text\"]
+  todo = Todo.new text: text
   status = todo.save
   {
     status: status,
@@ -26,12 +30,65 @@ r.post(\"todos\") {
 }
 "
 
+MODEL_METHOD_TODO_ALL = "
+def self.all
+  new.all
+end
+
+def all
+  todos = DB[:todos]
+  todos = todos.reverse :created_at
+  todos.all
+end
+"
+
+MODEL_METHOD_TODO_INITIALIZER = "
+def initialize(text:)
+  @text = text
+end
+"
+
+MODEL_METHOD_TODO_SAVE = "
+def save
+  todos = DB[:todos]
+  status = todos.insert {
+    text:       @text,
+    created_at: Time.now,
+  }
+  status
+end
+"
+
+MODEL_TODO = "
+DB.create_table(:todos) do
+  primary_key :id
+  column :text, String
+  column :complete, Boolean
+  column :created_at, DateTime
+end unless DB.table_exists? :todos
+
+class Todo
+  attr_reader :id, :created_at
+  attr_accessor :content, :complete
+
+  <MODEL_METHODS>
+end
+"
+
   RESPONSES = {
     # input regex => mock output
+    # ---
+    # application
     /requirements .+ application .+ todo list app .+ sequel/i => APP_TODO_SQLITE,
+    # routes
     /get \/todos \- lists .+ todos/i => ROUTE_TODOS_GET,
     /post \/todos \- inserts .+ todo/i => ROUTE_TODOS_POST,
-    # ...
+    # model methods
+    /model method Todo.all - gets all todos/ => MODEL_METHOD_TODO_ALL,
+    /todo.new - initializes a todo/ => MODEL_METHOD_TODO_INITIALIZER,
+    /todo.save - creates one tweet / => MODEL_METHOD_TODO_SAVE,
+    # model
+    /ruby model Todo using Sequel/ => MODEL_TODO,
   }
 
   def initialize(input:)
