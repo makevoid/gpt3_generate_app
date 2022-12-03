@@ -1,5 +1,5 @@
 # DESCRIPTION
-# write a ruby model method Tweet.all that returns a list of tweets using Sequel 
+# write a ruby model method Tweet.all that returns a list of tweets using Sequel
 # IMPLEMENTATION
 def self.all
   new.all
@@ -24,14 +24,6 @@ end
 # DESCRIPTION
 # write a ruby model method using Sequel that saves a blog post
 # IMPLEMENTATION
-DB.create_table(:posts) do
-  primary_key :id
-end unless DB.table_exists? :posts
-DB.alter_table(:posts) do
-  add_column :content, String
-  add_column :created_at, DateTime
-end unless DB[:posts].columns.include? :content
-
 def initialize(content:)
   @content = content
 end
@@ -51,3 +43,4 @@ def get(tweet_id:)
   data = R.hmget "tweets:#{tweet_id}"
   Tweet.new data
 end
+# DESCRIPTION

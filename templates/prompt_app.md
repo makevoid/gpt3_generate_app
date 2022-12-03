@@ -1,7 +1,7 @@
 # DESCRIPTION
 # write application requirements for an application that is a twitter clone
 # IMPLEMENTATION
-- model Tweet - Sequel - id, text, user_id, created_at, retweets_count
+- model Tweet using Sequel - id, text, user_id, created_at, retweets_count
 - model method Tweet.all - gets all tweets using Sequel, sorted by created_at desc
 - model method tweet.new - initializes a tweet with id, text and user_id
 - model method tweet.save - creates one tweet using Sequel saving the text, the current user id, the current time as created_at and retweets counts set to 0
@@ -10,13 +10,13 @@
 # DESCRIPTION
 # write application requirements for a application that is a weather application
 # IMPLEMENTATION
-- model Weather - openweathermap
+- model Weather using openweathermap
 - model method Weather.get(city_name:) - calls openweathermap `/data/2.5/weather` API setting api_key to OPENWEATHERMAP_API_KEY
 - roda route get /weather - gets weather for a location
 # DESCRIPTION
 # write application requirements for an application that is a full-fledged twitter clone
 # IMPLEMENTATION
-- model Tweet - Sequel - id, text, user_id, created_at, retweets_count
+- model Tweet using Sequel - id, text, user_id, created_at, retweets_count
 - model method Tweet.all - gets all tweets using Sequel, sorted by created_at desc
 - model method tweet.new - initializes a tweet with id, text and user_id
 - model method tweet.save - creates one tweet using Sequel saving the text, the current user id, the current time as created_at and retweets counts set to 0
