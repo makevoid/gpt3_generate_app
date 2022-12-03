@@ -3,3 +3,4 @@ generated_apps
 *.sqlite
 *.sql
 *.db
+.DS_Store
