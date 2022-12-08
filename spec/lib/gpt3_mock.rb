@@ -71,7 +71,7 @@ class Todo
   attr_reader :id, :created_at
   attr_accessor :content, :complete
 
-  <MODEL_METHODS>
+<MODEL_METHODS>
 end
 "
 

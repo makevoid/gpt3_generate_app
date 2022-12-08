@@ -14,8 +14,8 @@ r.get("hello") {
 # write a ruby roda route - post /messages - saves a message
 # IMPLEMENTATION
 r.post("messages") {
-  message_text = params["message_text"]
-  message = Message.new message_text: message_text
+  text = params["text"]
+  message = Message.new text: text
   status = message.save
   {
     status: status,

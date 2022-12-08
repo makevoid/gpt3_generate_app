@@ -4,7 +4,7 @@
 class Weather
   API_ROOT = "https://api.openweathermap.org/data/2.5"
   
-  <MODEL_METHODS>
+<MODEL_METHODS>
 end
 # DESCRIPTION
 # write a ruby model Todo using Sequel - id, text, complete, created_at - complete is false by default
@@ -20,7 +20,7 @@ class Todo
   attr_reader :id, :created_at
   attr_accessor :content, :complete
 
-  <MODEL_METHODS>
+<MODEL_METHODS>
 end
 # DESCRIPTION
 # write a ruby model Tweet using Sequel - id, text, user_id, created_at, retweets_count
@@ -37,6 +37,6 @@ class Tweet
   attr_reader :id, :user_id, :created_at, :retweets_count
   attr_accessor :text
 
-  <MODEL_METHODS>
+<MODEL_METHODS>
 end
 # DESCRIPTION

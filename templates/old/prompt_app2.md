@@ -1,4 +1,4 @@
-# DESCRIPTION
+<!-- # DESCRIPTION
 # write application requirements for an application that is a twitter clone
 # IMPLEMENTATION
 - roda route get /tweets - gets tweet with id
@@ -18,4 +18,4 @@
 - roda route get /users/:username/feed - gets all tweets of the users that :username is following
 - roda route post /tweet/:tweet_id/retweet - retweets tweet identified by :tweet_id
 # DESCRIPTION
-# write application requirements for an application that <PROMPT>
+# write application requirements for an application that <PROMPT> -->

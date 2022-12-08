@@ -46,6 +46,10 @@ class GPT3Prompt
   def parse_response(response:)
     resp = response.body
     resp = JSON.parse resp
+    unless resp["choices"]
+      puts "ERROR:\n#{resp.inspect}"
+      raise "ErrorParsingGPTResponse"
+    end
     resp = resp.f "choices"
     resp = resp.f 0
     resp.f "text"

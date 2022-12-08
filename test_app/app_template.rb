@@ -1,3 +1,5 @@
+require_relative "../../test_app/env"
+
 class App < Roda
   plugin :render, engine: "haml"
   plugin :public

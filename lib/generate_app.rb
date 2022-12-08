@@ -1,5 +1,7 @@
 class GenerateApp
 
+  # NOTE: generated_apps/01 is the default app dir - this needs to be de-hardcoded to support multiple apps generated at the same time
+
   include AppTesting
 
   def initialize
@@ -29,12 +31,14 @@ class GenerateApp
     end
 
     prepare_application
-    # generate_migration
-    # generate_models
 
     # # generate_env
     # puts "performing test..."
     test_app_and_env
+  end
+
+  def wait
+    sleep 16 # could be lowered
   end
 
   def generate_routes(app_output:)
@@ -43,6 +47,7 @@ class GenerateApp
     route_prompts.each_with_index do |route_prompt, idx|
       generate_route route_prompt: route_prompt, idx: idx
       # exit
+      wait
     end
   end
 
@@ -51,7 +56,7 @@ class GenerateApp
     # model_prompts = model_prompts.first
     model_prompts.each_with_index do |model_prompt, idx|
       generate_model model_prompt: model_prompt, idx: idx
-      # exit
+      wait
     end
   end
 
@@ -60,7 +65,7 @@ class GenerateApp
     # model_method_prompt = model_method_prompts.first
     model_method_prompts.each_with_index do |model_method_prompt, idx|
       generate_model_method model_method_prompt: model_method_prompt, idx: idx
-      # exit
+      wait
     end
   end
 
@@ -74,10 +79,29 @@ class GenerateApp
     template
   end
 
+  def read_model_template(model_idx:)
+    path_tpl = "./generated_apps/01/model_#{model_idx}.rb"
+    template = File.read path_tpl
+    template
+  end
+
   def write_app_file(routes:)
     path = "./generated_apps/01/app.rb"
     template = read_app_template
     contents = template.sub "<ROUTES>", routes
+    File.open(path, "w") do |file|
+      file.write contents
+    end
+  end
+
+  # TODO: de-hardcode model index 0
+  MODEL_IDX = 0
+  
+  def write_model_file(model_methods:, model_idx:)
+    path = "./generated_apps/01/model_#{model_idx}.rb"
+    model_idx = MODEL_IDX
+    template = read_model_template model_idx: model_idx
+    contents = template.sub "<MODEL_METHODS>", model_methods
     File.open(path, "w") do |file|
       file.write contents
     end
@@ -92,8 +116,8 @@ class GenerateApp
     puts `rm -rf #{path}`
   end
 
-  def add_spacing(route:)
-    spacing = " "*4
+  def add_spacing(route:, spaces_num: 2)
+    spacing = " " * spaces_num
     route = route.split("\n").map do |line|
       line = "#{spacing}#{line}"
     end
@@ -101,17 +125,47 @@ class GenerateApp
     route
   end
 
-  def prepare_application
-    path = "./generated_apps/01"
+  def write_app_route_format(route_file:)
+    route = File.read route_file
+    route = add_spacing route: route, spaces_num: 4
+    route = "#{route}\n\n"
+    route
+  end
+
+  def write_app_routes(path:)
     routes_files = Dir.glob "#{path}/route_*.rb"
     routes = ""
     routes_files.each do |route_file|
-      route = File.read route_file
-      route = add_spacing route: route
-      routes << "#{route}\n\n"
+      route = write_app_route_format route_file: route_file
+      routes << route
     end
-    routes
     write_app_file routes: routes
+  end
+
+  def write_model_method_format(model_method_file:)
+    route = File.read model_method_file
+    route = add_spacing route: route
+    route = "#{route}\n\n"
+    route
+  end
+
+  def write_model(path:)
+    model_idx = MODEL_IDX
+    # TODO: support multi models
+    # routes_files = Dir.glob "#{path}/model_0_method_*.rb"
+    model_methods_files = Dir.glob "#{path}/model_method_*.rb"
+    model_methods = ""
+    model_methods_files.each do |model_method_file|
+      model_method = write_model_method_format model_method_file: model_method_file
+      model_methods << model_method
+    end
+    write_model_file model_methods: model_methods, model_idx: model_idx
+  end
+
+  def prepare_application
+    path = "./generated_apps/01"
+    write_app_routes path: path
+    write_model path: path
   end
 
   def concat_prompt(prompt:, few_shots_text:)
@@ -277,8 +331,8 @@ class GenerateApp
   #   generate_code_block area: :environment
   # end
 
-  def generate_migration
+  # def generate_migration
 
-  end
+  # end
 
 end

@@ -1,4 +1,4 @@
-# DESCRIPTION
+<!-- # DESCRIPTION
 # write application requirements for an application that is a twitter clone
 # IMPLEMENTATION
 - route get /tweets - get tweet with id
@@ -33,4 +33,4 @@
 - route post /xxx - save
 
 # DESCRIPTION
-# write application requirements for an application that <PROMPT>
+# write application requirements for an application that <PROMPT> -->

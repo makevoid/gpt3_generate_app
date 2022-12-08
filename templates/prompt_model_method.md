@@ -30,10 +30,10 @@ end
 
 def save
   posts = DB[:posts]
-  status = posts.insert {
+  status = posts.insert(
     content:    @content,
     created_at: Time.now,
-  }
+  )
   status
 end
 # DESCRIPTION
