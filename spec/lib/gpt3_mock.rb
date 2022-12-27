@@ -18,7 +18,7 @@ r.get(\"todos\") {
 
 ROUTE_TODOS_POST = "
 r.post(\"todos\") {
-  text = params[\"text\"]
+  text = params[:text]
   todo = Todo.new text: text
   status = todo.save
   {
@@ -51,10 +51,10 @@ end
 MODEL_METHOD_TODO_SAVE = "
 def save
   todos = DB[:todos]
-  status = todos.insert {
+  status = todos.insert(
     text:       @text,
     created_at: Time.now,
-  }
+  )
   status
 end
 "
@@ -63,7 +63,7 @@ MODEL_TODO = "
 DB.create_table(:todos) do
   primary_key :id
   column :text, String
-  column :complete, Boolean
+  column :complete, TrueClass
   column :created_at, DateTime
 end unless DB.table_exists? :todos
 

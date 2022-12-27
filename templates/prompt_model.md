@@ -12,14 +12,11 @@ end
 DB.create_table(:todos) do
   primary_key :id
   column :text, String
-  column :complete, Boolean
+  column :complete, TrueClass
   column :created_at, DateTime
 end unless DB.table_exists? :todos
 
 class Todo
-  attr_reader :id, :created_at
-  attr_accessor :content, :complete
-
 <MODEL_METHODS>
 end
 # DESCRIPTION
@@ -34,9 +31,6 @@ DB.create_table(:tweets) do
 end unless DB.table_exists? :tweets
 
 class Tweet
-  attr_reader :id, :user_id, :created_at, :retweets_count
-  attr_accessor :text
-
 <MODEL_METHODS>
 end
 # DESCRIPTION

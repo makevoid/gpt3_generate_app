@@ -2,6 +2,8 @@ class GenerateApp
 
   # NOTE: generated_apps/01 is the default app dir - this needs to be de-hardcoded to support multiple apps generated at the same time
 
+  # TODO: create a redis cache so that if a model, a route or a model method is already generated, it's picked up from cache instead of being generated again
+
   include AppTesting
 
   def initialize
@@ -38,7 +40,7 @@ class GenerateApp
   end
 
   def wait
-    sleep 16 # could be lowered
+    sleep 30 # could be lowered
   end
 
   def generate_routes(app_output:)
@@ -94,13 +96,17 @@ class GenerateApp
     end
   end
 
-  # TODO: de-hardcode model index 0
-  MODEL_IDX = 0
-  
+  def filter_model_methods(model_methods:, model_idx:)
+    model_methods.select.with_index do |model_method, idx|
+      STATE.f(:model_methods).f(idx) == STATE.f(:models).f(model_idx)
+    end
+  end
+
   def write_model_file(model_methods:, model_idx:)
     path = "./generated_apps/01/model_#{model_idx}.rb"
-    model_idx = MODEL_IDX
     template = read_model_template model_idx: model_idx
+    model_methods = filter_model_methods model_methods: model_methods, model_idx: model_idx
+    model_methods = model_methods.join ""
     contents = template.sub "<MODEL_METHODS>", model_methods
     File.open(path, "w") do |file|
       file.write contents
@@ -149,23 +155,25 @@ class GenerateApp
     route
   end
 
-  def write_model(path:)
-    model_idx = MODEL_IDX
+  def write_models(path:)
+    model_files = Dir.glob "#{path}/model_[0-9].rb"
     # TODO: support multi models
     # routes_files = Dir.glob "#{path}/model_0_method_*.rb"
     model_methods_files = Dir.glob "#{path}/model_method_*.rb"
-    model_methods = ""
+    model_methods = []
     model_methods_files.each do |model_method_file|
       model_method = write_model_method_format model_method_file: model_method_file
       model_methods << model_method
     end
-    write_model_file model_methods: model_methods, model_idx: model_idx
+    model_files.each_with_index do |_, model_idx|
+      write_model_file model_methods: model_methods, model_idx: model_idx
+    end
   end
 
   def prepare_application
     path = "./generated_apps/01"
     write_app_routes path: path
-    write_model path: path
+    write_models path: path
   end
 
   def concat_prompt(prompt:, few_shots_text:)
@@ -261,7 +269,25 @@ class GenerateApp
     print_output output: output
     template_filepath = TEMPLATE_PATHS.f :prompt_model
     template_filepath = template_filepath % idx
+    model_name = extract_model_from_prompt model_prompt: model_prompt
+    STATE[:models][idx] = model_name
     save_output filename: template_filepath, output: output
+  end
+
+  def extract_model_from_prompt(model_prompt:)
+    match = model_prompt.match /(\w+)\s/ 
+    match = match[1]
+    match = match.capitalize
+    raise "ModelNameNotMatchedError - couldn't extract model name from model prompt: `#{model_prompt}`" unless match
+    match
+  end
+
+  def extract_model_name_from_prompt(model_method_prompt:)
+    match = model_method_prompt.match /(.+)\./ 
+    match = match[1]
+    match = match.capitalize
+    raise "ModelNameNotMatchedError - couldn't extract model name from model method prompt: `#{model_method_prompt}`" unless match
+    match
   end
 
   def generate_code_block_model_method(model_method_prompt:, idx:)
@@ -273,6 +299,8 @@ class GenerateApp
     print_output output: output
     template_filepath = TEMPLATE_PATHS.f :prompt_model_method
     template_filepath = template_filepath % idx
+    model_name = extract_model_name_from_prompt model_method_prompt: model_method_prompt
+    STATE[:model_methods][idx] = model_name
     save_output filename: template_filepath, output: output
   end
 
@@ -326,13 +354,10 @@ class GenerateApp
     generate_code_block_model_method model_method_prompt: model_method_prompt, idx: idx
   end
 
-
+  # TODO - generate env
+  # NOTE: at the moment the env is standard / hardcoded
   # def generate_env
   #   generate_code_block area: :environment
-  # end
-
-  # def generate_migration
-
   # end
 
 end

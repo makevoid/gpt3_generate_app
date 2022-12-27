@@ -16,7 +16,7 @@ module AppTesting
     Thread.new do
       run_cmd "cd ./test_app && pkill -f puma; BUNDLE_GEMFILE=./Gemfile bundle exec rackup -p 3000"
     end
-    sleep 0.6
+    sleep 1
   end
 
   private

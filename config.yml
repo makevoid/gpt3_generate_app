@@ -1,7 +1,13 @@
 :twitter_clone:
-  :prompt_app: "
-  implements a todo list app listing todos from a database using Sequel and sqlite"
-  :prompt_route: null # this prompt is interactive, this config can be used to geneate a single route
+  # :prompt_app: "implements a todo list app listing todos from a database using Sequel and sqlite"
+  # :prompt_app: "implements a twitter clone app using Sequel and sqlite"
+  # :prompt_app: "implements a weather app fetching the weather from openmeteo.com"
+  # :prompt_app: "implements a blog app with posts and comments using Sequel and sqlite"
+  # :prompt_app: "implements a fitness app where I can track my daily steps and calories burned"
+  # :prompt_app: "implements a facebook clone where I can post status updates and upload images" # upload is not implemented - only saving urls
+  # :prompt_app: "implements a restaurant table reservation app using Sequel and sqlite" # implemented restaurants and tables but not reservations
+  :prompt_app: "implements an app to save notes and pin them using Sequel"
+
 
   # TODO: comment all notes
 

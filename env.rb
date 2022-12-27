@@ -5,6 +5,10 @@ Bundler.require :default, :development
 STATE = {}
 
 STATE[:config] = {}
+STATE[:models] = {} 
+STATE[:model_methods] = {} 
+# NOTE: we need to keep track of model methods so that we can write the right model method for the right model
+
 require_relative "lib/config_utils"
 include ConfigUtils
 
