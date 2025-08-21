@@ -1,4 +1,6 @@
-## App Prototype Generator - uses AI to generate working code mockups of any application you want [Generate App with GPT3 Codex]
+## Pre-ChatGPT Code Generator - GPT3 Davinci App Prototype Generator 
+
+### Uses AI to generate working code mockups of Web Applications
 
 GPT3 Generate App generates a working app for you based on your specifications defined in a simple `config.yml`.
 
